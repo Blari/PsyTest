@@ -65,11 +65,23 @@ function addQuestion() {
     : null;
 }
 
+function prBar() {
+  const pb = document.querySelector(".progress-bar");
+  let pbValue = parseInt(pb.style.width);
+  pb.innerHTML = `${nQue} вопрос из 40 (${parseInt((nQue / 40) * 100)}%)`;
+
+  pbValue += 3;
+  pb.setAttribute("style", `width: ${parseInt((nQue / 40) * 100)}%`);
+
+  console.log(pbValue);
+}
+
 function nexeQuest(e) {
   nQue++;
   if (e.target.classList.contains("yes")) {
     answr += "1";
     addQuestion();
+    prBar();
     h5.classList.add("fadeIn");
     h5.classList.add("fadeIn");
     setTimeout(() => {
@@ -78,6 +90,7 @@ function nexeQuest(e) {
   } else {
     answr += "0";
     addQuestion();
+    prBar();
     h5.classList.add("fadeIn");
     setTimeout(() => {
       h5.classList.remove("fadeIn");
