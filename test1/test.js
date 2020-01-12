@@ -65,17 +65,22 @@ function addQuestion() {
     : null;
 }
 
+//Прогресс бар
 function prBar() {
   const pb = document.querySelector(".progress-bar");
   let pbValue = parseInt(pb.style.width);
-  pb.innerHTML = `${nQue} вопрос из 40 (${parseInt((nQue / 40) * 100)}%)`;
+
+  pb.querySelector("p").innerHTML = `${nQue} вопрос из 40 (${parseInt(
+    (nQue / 40) * 100
+  )}%)`;
 
   pbValue += 3;
   pb.setAttribute("style", `width: ${parseInt((nQue / 40) * 100)}%`);
+  pb.setAttribute("aria-valuenow", parseInt((nQue / 40) * 100));
 
   console.log(pbValue);
 }
-
+//Следующий вопрос по нажатии кнопки
 function nexeQuest(e) {
   nQue++;
   if (e.target.classList.contains("yes")) {

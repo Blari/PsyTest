@@ -1,6 +1,16 @@
+p {
+  margin: 0;
+}
 .container {
   margin-top: 15px;
 }
 .container .row {
   margin-bottom: 15px;
+}
+.container .row .progress-bar {
+  overflow: visible;
+}
+.container .row .progress-bar p {
+  font-size: 16px;
+  margin-left: 10px;
 }
