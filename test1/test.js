@@ -217,9 +217,9 @@ function chartBuild() {
 }
 
 function resultBuild() {
-  document.querySelector(".progressbar").disabled = true;
-  document.querySelector(".question").disabled = true;
-  document.querySelector(".mainButtons").disabled = true;
+  document.querySelector(".progressbar").classList.add("d-none");
+  document.querySelector(".question").classList.add("d-none");
+  document.querySelector(".mainButtons").classList.add("d-none");
   let description = document.querySelector(".descriptionResult");
   let ul = document.createElement("ul");
   let li1 = document.createElement("li");
