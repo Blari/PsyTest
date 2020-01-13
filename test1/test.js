@@ -50,7 +50,7 @@ let nQue = 0;
 const h5 = document.querySelector(".questions");
 
 let resultBtn = document.querySelector(".result");
-resultBtn.addEventListener("click", chartBuild);
+resultBtn.addEventListener("click", resultBuild);
 
 //Прослушка на нажатию кнопки "Да" и "Нет"
 let yesBtn = document
@@ -216,4 +216,36 @@ function chartBuild() {
   chart.render();
 }
 
+function resultBuild() {
+  document.querySelector(".progressbar").disabled = true;
+  document.querySelector(".question").disabled = true;
+  document.querySelector(".mainButtons").disabled = true;
+  let description = document.querySelector(".descriptionResult");
+  let ul = document.createElement("ul");
+  let li1 = document.createElement("li");
+  li1.innerHTML =
+    "Предметно – действенное мышление свойственно людям дела. Про них говорят: «Золотые руки». Они лучше усваивают информацию через движение. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Эти мышлением обладают и многие выдающиеся танцоры, спортсмены.";
+  ul.appendChild(li1);
+  let li2 = document.createElement("li");
+  li2.innerHTML =
+    "Абстрактно – символическим мышлением обладают многие люди науки - физики – теоретики, математики, экономисты, программисты, аналитики. Люди с таким типом мышления могут усваивать информацию с помощью математических кодов, формул, и операций, которые нельзя ни потрогать, ни представить. Благодаря особенностям такого мышления на основе гипотез сделаны многие открытия во всех областях науки.";
+  ul.appendChild(li2);
+  let li3 = document.createElement("li");
+  li3.innerHTML =
+    "Словесно – логическое мышление отличает людей с ярко выраженным вербальным интеллектом. Благодаря развитому словесно – логическому мышлению ученый, преподаватель, переводчик, писатель, филолог, журналист могут сформулировать свои мысли и донести их до людей. Это умение необходимо руководителям, политикам и общественным деятелям.";
+  ul.appendChild(li3);
+  let li4 = document.createElement("li");
+  li4.innerHTML =
+    "Наглядно – образным мышлением обладают люди с художественным складом ума, которые могут представить и то, что было и то, что будет и то, чего никогда не было и не будет – художники, поэты, писатели, режиссеры. Архитектор, конструктор, дизайнер, художник, режиссер должны обладать развитым наглядно – образным мышлением.";
+  ul.appendChild(li4);
+  let li5 = document.createElement("li");
+  li5.innerHTML =
+    "Креативность – это способность человека мыслить творчески, находить нестандартные решения задачи. Креативностью может обладать человек с любым типом мышления. Это редкое и ничем незаменимое качество, отличающее талантливых и успешных людей в любой сфере деятельности.";
+  ul.appendChild(li5);
+  let h3 = document.createElement(`h3`);
+  h3.innerHTML = "Результаты опросника";
+  description.appendChild(h3);
+  chartBuild();
+  description.appendChild(ul);
+}
 addQuestion();
