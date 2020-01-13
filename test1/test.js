@@ -50,16 +50,18 @@ let nQue = 0;
 const h5 = document.querySelector(".questions");
 
 //Прослушка на нажатию кнопки "Да" и "Нет"
-const yesBtn = document
+let yesBtn = document
   .querySelector(".yes")
   .addEventListener("click", nexeQuest);
-const noBtn = document
+let noBtn = document
   .querySelector(".no")
   .addEventListener("click", nexeQuest);
 
 //Функция для вставки вопросов
 function addQuestion() {
-  h5.innerHTML = questions[nQue];
+  nQue < questions.length ? h5.innerHTML = questions[nQue] : h5.innerHTML = `Спасибо за Ваши ответы. <br>Теперь Вы можете перейти к результатам.`;
+  
+
   nQue > 0
     ? document.querySelector(".description").classList.add("d-none")
     : null;
@@ -77,11 +79,15 @@ function prBar() {
   pbValue += 3;
   pb.setAttribute("style", `width: ${parseInt((nQue / 40) * 100)}%`);
   pb.setAttribute("aria-valuenow", parseInt((nQue / 40) * 100));
-
-  console.log(pbValue);
 }
 //Следующий вопрос по нажатии кнопки
 function nexeQuest(e) {
+  if (nQue === questions.length - 1){
+    document.querySelector(".yes").disabled  = true;
+    document.querySelector(".no").disabled  = true;
+    document.querySelector('.result').style.display="block";
+  } 
+  
   nQue++;
   if (e.target.classList.contains("yes")) {
     answr += "1";
