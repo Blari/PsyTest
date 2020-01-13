@@ -49,18 +49,20 @@ let nQue = 0;
 //место в ДОМ-е, куда пихаем вопросы
 const h5 = document.querySelector(".questions");
 
+let resultBtn = document.querySelector(".result");
+resultBtn.addEventListener("click", chartBuild);
+
 //Прослушка на нажатию кнопки "Да" и "Нет"
 let yesBtn = document
   .querySelector(".yes")
   .addEventListener("click", nexeQuest);
-let noBtn = document
-  .querySelector(".no")
-  .addEventListener("click", nexeQuest);
+let noBtn = document.querySelector(".no").addEventListener("click", nexeQuest);
 
 //Функция для вставки вопросов
 function addQuestion() {
-  nQue < questions.length ? h5.innerHTML = questions[nQue] : h5.innerHTML = `Спасибо за Ваши ответы. <br>Теперь Вы можете перейти к результатам.`;
-  
+  nQue < questions.length
+    ? (h5.innerHTML = questions[nQue])
+    : (h5.innerHTML = `Спасибо за Ваши ответы. <br>Теперь Вы можете перейти к результатам.`);
 
   nQue > 0
     ? document.querySelector(".description").classList.add("d-none")
@@ -82,12 +84,12 @@ function prBar() {
 }
 //Следующий вопрос по нажатии кнопки
 function nexeQuest(e) {
-  if (nQue === questions.length - 1){
-    document.querySelector(".yes").disabled  = true;
-    document.querySelector(".no").disabled  = true;
-    document.querySelector('.result').style.display="block";
-  } 
-  
+  if (nQue === questions.length - 1) {
+    document.querySelector(".yes").disabled = true;
+    document.querySelector(".no").disabled = true;
+    document.querySelector(".result").style.display = "block";
+  }
+
   nQue++;
   if (e.target.classList.contains("yes")) {
     answr += "1";
@@ -107,6 +109,111 @@ function nexeQuest(e) {
       h5.classList.remove("fadeIn");
     }, 200);
   }
+}
+
+//Считаем
+function resulFnc() {
+  let data = [];
+  let PD =
+    +answr[0] +
+    +answr[5] +
+    +answr[10] +
+    +answr[15] +
+    +answr[20] +
+    +answr[25] +
+    +answr[30] +
+    +answr[35];
+  let AC =
+    +answr[1] +
+    +answr[6] +
+    +answr[11] +
+    +answr[16] +
+    +answr[21] +
+    +answr[26] +
+    +answr[31] +
+    +answr[36];
+  let SL =
+    +answr[2] +
+    +answr[7] +
+    +answr[12] +
+    +answr[17] +
+    +answr[22] +
+    +answr[27] +
+    +answr[32] +
+    +answr[37];
+  let NO =
+    +answr[3] +
+    +answr[8] +
+    +answr[13] +
+    +answr[18] +
+    +answr[23] +
+    +answr[28] +
+    +answr[33] +
+    +answr[38];
+  let K =
+    +answr[4] +
+    +answr[9] +
+    +answr[14] +
+    +answr[19] +
+    +answr[24] +
+    +answr[29] +
+    +answr[34] +
+    +answr[39];
+  data.push(PD, AC, SL, NO, K);
+  return data;
+}
+
+//Рисуем граффик
+function chartBuild() {
+  var options = {
+    series: [
+      {
+        data: resulFnc()
+      }
+    ],
+    chart: {
+      type: "bar",
+      height: 350
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        endingShape: "rounded"
+      }
+    },
+    tooltip: {
+      followCursor: true,
+      y: {
+        title: {
+          formatter: seriesName => `Значение`
+        },
+        formatter: function(val) {
+          if (val >= 0 && val <= 2) {
+            return `${val} - Низкий уровень.`;
+          } else if (val >= 3 && val <= 5) {
+            return `${val} - Средний уровень.`;
+          } else if (val >= 6 && val <= 8) {
+            return `${val} - Высокий уровень.`;
+          }
+        }
+      }
+    },
+    dataLabels: {
+      enabled: true
+    },
+    xaxis: {
+      categories: [
+        "Предметно-действенное мышление",
+        "Абстрактно-символическое мышление",
+        "Словесно-логическое мышление",
+        "Наглядно-образное мышление",
+        "Креативность"
+      ]
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
 }
 
 addQuestion();
