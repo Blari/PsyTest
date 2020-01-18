@@ -49,17 +49,21 @@ let nQue = 0;
 //место в ДОМ-е, куда пихаем вопросы
 const h5 = document.querySelector(".questions");
 
+let resultBtn = document.querySelector(".result");
+resultBtn.addEventListener("click", resultBuild);
+
 //Прослушка на нажатию кнопки "Да" и "Нет"
-const yesBtn = document
+let yesBtn = document
   .querySelector(".yes")
   .addEventListener("click", nexeQuest);
-const noBtn = document
-  .querySelector(".no")
-  .addEventListener("click", nexeQuest);
+let noBtn = document.querySelector(".no").addEventListener("click", nexeQuest);
 
 //Функция для вставки вопросов
 function addQuestion() {
-  h5.innerHTML = questions[nQue];
+  nQue < questions.length
+    ? (h5.innerHTML = questions[nQue])
+    : (h5.innerHTML = `Спасибо за Ваши ответы. <br>Теперь Вы можете перейти к результатам.`);
+
   nQue > 0
     ? document.querySelector(".description").classList.add("d-none")
     : null;
@@ -80,6 +84,12 @@ function prBar() {
 }
 //Следующий вопрос по нажатии кнопки
 function nexeQuest(e) {
+  if (nQue === questions.length - 1) {
+    document.querySelector(".yes").disabled = true;
+    document.querySelector(".no").disabled = true;
+    document.querySelector(".result").style.display = "block";
+  }
+
   nQue++;
   if (e.target.classList.contains("yes")) {
     answr += "1";
@@ -101,4 +111,141 @@ function nexeQuest(e) {
   }
 }
 
+//Считаем
+function resulFnc() {
+  let data = [];
+  let PD =
+    +answr[0] +
+    +answr[5] +
+    +answr[10] +
+    +answr[15] +
+    +answr[20] +
+    +answr[25] +
+    +answr[30] +
+    +answr[35];
+  let AC =
+    +answr[1] +
+    +answr[6] +
+    +answr[11] +
+    +answr[16] +
+    +answr[21] +
+    +answr[26] +
+    +answr[31] +
+    +answr[36];
+  let SL =
+    +answr[2] +
+    +answr[7] +
+    +answr[12] +
+    +answr[17] +
+    +answr[22] +
+    +answr[27] +
+    +answr[32] +
+    +answr[37];
+  let NO =
+    +answr[3] +
+    +answr[8] +
+    +answr[13] +
+    +answr[18] +
+    +answr[23] +
+    +answr[28] +
+    +answr[33] +
+    +answr[38];
+  let K =
+    +answr[4] +
+    +answr[9] +
+    +answr[14] +
+    +answr[19] +
+    +answr[24] +
+    +answr[29] +
+    +answr[34] +
+    +answr[39];
+  data.push(PD, AC, SL, NO, K);
+  return data;
+}
+
+//Рисуем граффик
+function chartBuild() {
+  var options = {
+    series: [
+      {
+        data: resulFnc()
+      }
+    ],
+    chart: {
+      type: "bar",
+      height: 350
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        endingShape: "rounded"
+      }
+    },
+    tooltip: {
+      followCursor: true,
+      y: {
+        title: {
+          formatter: seriesName => `Значение`
+        },
+        formatter: function(val) {
+          if (val >= 0 && val <= 2) {
+            return `${val} - Низкий уровень.`;
+          } else if (val >= 3 && val <= 5) {
+            return `${val} - Средний уровень.`;
+          } else if (val >= 6 && val <= 8) {
+            return `${val} - Высокий уровень.`;
+          }
+        }
+      }
+    },
+    dataLabels: {
+      enabled: true
+    },
+    xaxis: {
+      categories: [
+        "Предметно-действенное мышление",
+        "Абстрактно-символическое мышление",
+        "Словесно-логическое мышление",
+        "Наглядно-образное мышление",
+        "Креативность"
+      ]
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+}
+
+function resultBuild() {
+  document.querySelector(".progressbar").classList.add("d-none");
+  document.querySelector(".question").classList.add("d-none");
+  document.querySelector(".mainButtons").classList.add("d-none");
+  let description = document.querySelector(".descriptionResult");
+  let ul = document.createElement("ul");
+  let li1 = document.createElement("li");
+  li1.innerHTML =
+    "Предметно – действенное мышление свойственно людям дела. Про них говорят: «Золотые руки». Они лучше усваивают информацию через движение. Обычно они обладают хорошей координацией движений. Их руками создан весь окружающий нас предметный мир. Они водят машины, стоят у станков, собирают компьютеры. Без них невозможно реализовать самую блестящую идею. Эти мышлением обладают и многие выдающиеся танцоры, спортсмены.";
+  ul.appendChild(li1);
+  let li2 = document.createElement("li");
+  li2.innerHTML =
+    "Абстрактно – символическим мышлением обладают многие люди науки - физики – теоретики, математики, экономисты, программисты, аналитики. Люди с таким типом мышления могут усваивать информацию с помощью математических кодов, формул, и операций, которые нельзя ни потрогать, ни представить. Благодаря особенностям такого мышления на основе гипотез сделаны многие открытия во всех областях науки.";
+  ul.appendChild(li2);
+  let li3 = document.createElement("li");
+  li3.innerHTML =
+    "Словесно – логическое мышление отличает людей с ярко выраженным вербальным интеллектом. Благодаря развитому словесно – логическому мышлению ученый, преподаватель, переводчик, писатель, филолог, журналист могут сформулировать свои мысли и донести их до людей. Это умение необходимо руководителям, политикам и общественным деятелям.";
+  ul.appendChild(li3);
+  let li4 = document.createElement("li");
+  li4.innerHTML =
+    "Наглядно – образным мышлением обладают люди с художественным складом ума, которые могут представить и то, что было и то, что будет и то, чего никогда не было и не будет – художники, поэты, писатели, режиссеры. Архитектор, конструктор, дизайнер, художник, режиссер должны обладать развитым наглядно – образным мышлением.";
+  ul.appendChild(li4);
+  let li5 = document.createElement("li");
+  li5.innerHTML =
+    "Креативность – это способность человека мыслить творчески, находить нестандартные решения задачи. Креативностью может обладать человек с любым типом мышления. Это редкое и ничем незаменимое качество, отличающее талантливых и успешных людей в любой сфере деятельности.";
+  ul.appendChild(li5);
+  let h3 = document.createElement(`h3`);
+  h3.innerHTML = "Результаты опросника";
+  description.appendChild(h3);
+  chartBuild();
+  description.appendChild(ul);
+}
 addQuestion();
