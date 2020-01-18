@@ -77,8 +77,6 @@ function prBar() {
   pbValue += 3;
   pb.setAttribute("style", `width: ${parseInt((nQue / 40) * 100)}%`);
   pb.setAttribute("aria-valuenow", parseInt((nQue / 40) * 100));
-
-  console.log(pbValue);
 }
 //Следующий вопрос по нажатии кнопки
 function nexeQuest(e) {
